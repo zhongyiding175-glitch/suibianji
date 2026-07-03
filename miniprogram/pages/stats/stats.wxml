@@ -1,42 +1,6 @@
 <view class="page">
-  <scroll-view class="content" scroll-y>
-
-    <view class="stat-card glass-strong rounded-24">
-      <text class="stat-label">{{year}} / {{monthName}}</text>
-      <view class="stat-big">
-        <text class="stat-yen">¥</text>{{totalInt}}<text class="stat-dec">.{{totalDec}}</text>
-      </view>
-      <view wx:if="{{vsLastMonth}}" class="stat-compare">
-        ↓ 比上月少花了 ¥{{vsAmount}} ({{vsPct}}%)
-      </view>
-    </view>
-
-    <view wx:for="{{breakdown}}" wx:key="category" class="rank-card glass rounded-18">
-      <text class="rank-num">{{index + 1}}</text>
-      <view class="rank-icon" style="background:{{item.bg}};">
-        <text>{{item.emoji}}</text>
-      </view>
-      <view class="rank-info">
-        <text class="rank-name">{{item.category}}</text>
-        <view class="rank-bar-wrap">
-          <view class="rank-bar-fill" style="width:{{item.barWidth}}%;background:{{item.color}};"></view>
-        </view>
-      </view>
-      <view class="rank-amount">
-        <text class="rank-amount-val">¥{{item.amountText}}</text>
-        <text class="rank-amount-pct">{{item.percentage}}%</text>
-      </view>
-    </view>
-
-    <view style="height:120rpx;"></view>
-  </scroll-view>
-
-  <view class="tab-bar">
-    <view class="tab-item" bindtap="goHome">
-      <text class="tab-emoji">💰</text>记账
-    </view>
-    <view class="tab-item active">
-      <text class="tab-emoji">📊</text>统计
-    </view>
+  <view class="card">
+    <text class="title">账单分析</text>
+    <text class="sub">即将上线</text>
   </view>
 </view>
