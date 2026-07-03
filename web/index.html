@@ -216,6 +216,13 @@
     </div>
   </main>
 
+  <div class="input-wrap" id="inputBar">
+    <div class="input-bar glass-strong">
+      <input id="billInput" placeholder="午饭吃了什么？花了多少？" onkeydown="if(event.key==='Enter')submitBill()">
+      <button class="btn-go" onclick="submitBill()">↑</button>
+    </div>
+  </div>
+
   <nav>
     <div class="tab on" id="tabHome" onclick="showPage('home')"><span>💰</span>记账</div>
     <div class="tab" id="tabStats" onclick="showPage('stats')"><span>📊</span>统计</div>
@@ -311,6 +318,7 @@ function showPage(p) {
   document.getElementById('headerTitle').textContent = p==='home'?'随便记':'账单分析';
   document.getElementById('tabHome').classList.toggle('on', p==='home');
   document.getElementById('tabStats').classList.toggle('on', p==='stats');
+  document.getElementById('inputBar').style.display = p==='home'?'block':'none';
   if (p==='stats') loadStats();
 }
 
