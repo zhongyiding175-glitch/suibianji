@@ -1,11 +1,5 @@
 <view class="page">
-  <view class="status-bar">
-    <text>{{statusTime}}</text>
-    <text>🔋 📶</text>
-  </view>
-  <view class="nav">随便记<text class="nav-stats" bindtap="goStats">📊</text></view>
-
-  <scroll-view class="content" scroll-y enhanced show-scrollbar="{{false}}">
+  <scroll-view class="content" scroll-y>
 
     <view class="greeting-card glass-strong rounded-20">
       <view class="greeting-row">
@@ -14,9 +8,9 @@
           <view class="greeting-title">下午好</view>
           <text class="greeting-sub">今天花了多少？</text>
         </view>
-        <view class="greeting-total">
+        <view class="greeting-total" bindtap="goStats">
           <text class="greeting-amount">¥{{todayTotal}}</text>
-          <text class="greeting-amount-label">今日支出 · {{todayCount}}笔</text>
+          <text class="greeting-amount-label">今日支出 · {{todayCount}}笔  📊</text>
         </view>
       </view>
     </view>

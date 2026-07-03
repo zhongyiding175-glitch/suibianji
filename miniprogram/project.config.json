@@ -36,7 +36,7 @@
     }
   },
   "compileType": "miniprogram",
-  "libVersion": "3.7.0",
+  "libVersion": "3.16.2",
   "appid": "wx96069d16a3337f87",
   "projectname": "jijian-jizhang",
   "condition": {},
