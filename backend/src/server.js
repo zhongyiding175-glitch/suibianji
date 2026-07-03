@@ -10,8 +10,13 @@ const statsRoutes = require('./routes/stats');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const path = require('path');
+
 app.use(cors());
 app.use(express.json());
+
+// Serve static web app
+app.use(express.static(path.join(__dirname, '..', '..', 'web')));
 
 // Routes
 app.use('/api/auth', authRoutes);

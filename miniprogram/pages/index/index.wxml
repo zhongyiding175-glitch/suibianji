@@ -1,10 +1,1 @@
-<view class="page">
-  <view class="card">
-    <text class="title">随便记</text>
-    <text class="sub">跟聊天一样记账</text>
-  </view>
-  <view class="input-wrap">
-    <input placeholder="午饭花了多少？" value="{{inputText}}" bindinput="onInput"/>
-    <button bindtap="submitBill">记一笔</button>
-  </view>
-</view>
+<view><text>随便记 - Hello!</text></view>

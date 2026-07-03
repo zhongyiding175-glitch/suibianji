@@ -1,28 +1,23 @@
 {
   "description": "极简记账",
-  "packOptions": {
-    "ignore": [],
-    "include": []
-  },
+  "compileType": "miniprogram",
+  "libVersion": "3.7.0",
+  "appid": "wx96069d16a3337f87",
+  "projectname": "jijian-jizhang",
   "setting": {
     "urlCheck": false,
     "es6": true,
     "enhance": true,
     "postcss": true,
-    "preloadBackgroundData": false,
     "minified": true,
-    "newFeature": true,
     "coverView": true,
-    "autoAudits": false,
-    "showShadowRootInWxmlPanel": true,
-    "scopeDataCheck": false,
+    "minifyWXML": true,
     "compileWorklet": false,
     "uglifyFileName": false,
     "uploadWithSourceMap": true,
     "packNpmManually": false,
     "packNpmRelationList": [],
     "minifyWXSS": true,
-    "minifyWXML": true,
     "localPlugins": false,
     "disableUseStrict": false,
     "useCompilerPlugins": false,
@@ -35,12 +30,12 @@
       "outputPath": ""
     }
   },
-  "compileType": "miniprogram",
-  "libVersion": "3.16.2",
-  "appid": "wx96069d16a3337f87",
-  "projectname": "jijian-jizhang",
   "condition": {},
   "simulatorPluginLibVersion": {},
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
   "isGameTourist": false,
   "editorSetting": {}
 }

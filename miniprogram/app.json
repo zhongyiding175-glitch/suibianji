@@ -1,12 +1,6 @@
 {
-  "pages": [
-    "pages/index/index",
-    "pages/stats/stats"
-  ],
+  "pages": ["pages/index/index"],
   "window": {
-    "navigationStyle": "custom",
-    "backgroundColor": "#f5f3f0"
-  },
-  "style": "v2",
-  "sitemapLocation": "sitemap.json"
+    "navigationBarTitleText": "随便记"
+  }
 }

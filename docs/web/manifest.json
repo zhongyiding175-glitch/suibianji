@@ -1,0 +1,14 @@
+{
+  "name": "随便记 - AI 记账",
+  "short_name": "随便记",
+  "description": "跟聊天一样记账，AI 帮你分类分析",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f3f0",
+  "theme_color": "#1c1c1e",
+  "icons": [{
+    "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💰</text></svg>",
+    "sizes": "100x100",
+    "type": "image/svg+xml"
+  }]
+}
