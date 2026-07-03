@@ -24,7 +24,13 @@ router.post('/', async (req, res) => {
     }
 
     const db = getDb();
-    const user = db.prepare('SELECT id FROM users WHERE openid = ?').get(req.openid);
+    let user = db.prepare('SELECT id FROM users WHERE openid = ?').get(req.openid);
+
+    // Auto-create user if not exists (robustness)
+    if (!user) {
+      const result = db.prepare('INSERT INTO users (openid, nickname) VALUES (?, ?)').run(req.openid, '微信用户');
+      user = { id: result.lastInsertRowid };
+    }
 
     // 金额存分为单位
     const amountInCents = Math.round(classified.amount * 100);
@@ -55,7 +61,8 @@ router.get('/', (req, res) => {
   try {
     const { date, limit = 50, offset = 0 } = req.query;
     const db = getDb();
-    const user = db.prepare('SELECT id FROM users WHERE openid = ?').get(req.openid);
+    let user = db.prepare('SELECT id FROM users WHERE openid = ?').get(req.openid);
+    if (!user) { user = { id: -1 }; }
 
     let sql = 'SELECT * FROM bills WHERE user_id = ?';
     const params = [user.id];
@@ -89,7 +96,8 @@ router.get('/', (req, res) => {
 router.delete('/:id', (req, res) => {
   try {
     const db = getDb();
-    const user = db.prepare('SELECT id FROM users WHERE openid = ?').get(req.openid);
+    let user = db.prepare('SELECT id FROM users WHERE openid = ?').get(req.openid);
+    if (!user) { user = { id: -1 }; }
     const bill = db.prepare('SELECT * FROM bills WHERE id = ? AND user_id = ?').get(req.params.id, user.id);
 
     if (!bill) {
