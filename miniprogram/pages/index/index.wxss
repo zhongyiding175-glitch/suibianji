@@ -31,15 +31,14 @@
 
 .ai-bubble {
   padding: 16rpx 24rpx; border-radius: 28rpx; margin-bottom: 20rpx;
-  display: inline-flex; align-items: center; gap: 14rpx;
+  display: inline-flex; align-items: center;
   font-size: 24rpx; color: rgba(0,0,0,0.5); font-weight: 500;
-  background: rgba(255,255,255,0.35);
-  backdrop-filter: blur(16px);
-  border: 1rpx solid rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.5);
+  border: 1rpx solid rgba(255,255,255,0.7);
 }
-.ai-dots { display: flex; gap: 6rpx; }
+.ai-dots { display: flex; }
 .ai-dot {
-  width: 10rpx; height: 10rpx; border-radius: 50%;
+  width: 10rpx; height: 10rpx; border-radius: 50%; margin-right: 6rpx;
   background: #FF6B35; animation: dotPulse 1.2s infinite;
 }
 .ai-dot:nth-child(2) { animation-delay: 0.2s; }
@@ -50,20 +49,23 @@
 }
 
 .date-divider {
-  display: flex; align-items: center; gap: 20rpx; margin: 36rpx 0 20rpx;
+  display: flex; align-items: center; margin: 36rpx 0 20rpx;
 }
 .date-divider-line { flex: 1; height: 1rpx; background: rgba(0,0,0,0.06); }
-.date-divider-text { font-size: 22rpx; font-weight: 600; color: rgba(0,0,0,0.3); letter-spacing: 2rpx; }
+.date-divider-text {
+  font-size: 22rpx; font-weight: 600; color: rgba(0,0,0,0.3);
+  letter-spacing: 2rpx; margin: 0 20rpx;
+}
 
 .bill-card {
   padding: 28rpx 32rpx; margin-bottom: 12rpx;
   display: flex; align-items: center; justify-content: space-between;
 }
-.bill-left { display: flex; align-items: center; gap: 24rpx; }
+.bill-left { display: flex; align-items: center; }
 .bill-icon-wrap {
   width: 80rpx; height: 80rpx; border-radius: 28rpx;
   display: flex; align-items: center; justify-content: center;
-  font-size: 36rpx;
+  font-size: 36rpx; margin-right: 24rpx;
 }
 .bill-icon-餐饮 { background: rgba(255,107,53,0.12); }
 .bill-icon-交通 { background: rgba(16,185,129,0.12); }
@@ -81,10 +83,10 @@
 }
 .input-bar {
   padding: 12rpx 16rpx 12rpx 32rpx; border-radius: 44rpx;
-  display: flex; align-items: center; gap: 16rpx;
+  display: flex; align-items: center;
 }
 .input-field {
-  flex: 1; height: 64rpx; font-size: 28rpx; color: #1c1c1e;
+  flex: 1; height: 64rpx; font-size: 28rpx; color: #1c1c1e; margin: 0 16rpx;
 }
 .input-field::placeholder { color: rgba(0,0,0,0.2); }
 .input-btn {
