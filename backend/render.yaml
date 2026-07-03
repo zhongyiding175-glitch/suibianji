@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: suibianji-api
+    env: node
+    buildCommand: npm install
+    startCommand: node src/server.js
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: LLM_API_KEY
+        sync: false
+      - key: LLM_API_URL
+        value: https://api.deepseek.com/v1/chat/completions
+      - key: LLM_MODEL
+        value: deepseek-chat
+      - key: WECHAT_APPID
+        value: wx96069d16a3337f87
+      - key: WECHAT_SECRET
+        sync: false
+      - key: MOCK_AUTH
+        value: "true"

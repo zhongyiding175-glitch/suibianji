@@ -234,10 +234,10 @@
 </div>
 
 <script>
-// 本地开发用 localhost:3000，部署后改成你的后端地址
-const API = location.hostname === 'localhost'
+// 本地开发用 localhost，线上自动用同一域名下的 /api 路径，或用 Render 后端
+const API = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
   ? 'http://localhost:3000/api'
-  : 'http://localhost:3000/api'; // TODO: 替换为生产后端 URL
+  : 'https://suibianji-api.onrender.com/api';
 let token = localStorage.getItem('token');
 const EMOJI = { '餐饮':'🍜','交通':'🚇','购物':'🛍','娱乐':'🎮','学习':'📚','日用':'🧴','收入':'💰','其他':'📌' };
 const WD = ['日','一','二','三','四','五','六'];
