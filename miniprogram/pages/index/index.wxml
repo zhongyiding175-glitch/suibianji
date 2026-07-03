@@ -3,7 +3,7 @@
     <text>{{statusTime}}</text>
     <text>🔋 📶</text>
   </view>
-  <view class="nav">随便记</view>
+  <view class="nav">随便记<text class="nav-stats" bindtap="goStats">📊</text></view>
 
   <scroll-view class="content" scroll-y enhanced show-scrollbar="{{false}}">
 

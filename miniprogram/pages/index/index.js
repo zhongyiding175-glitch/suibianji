@@ -121,6 +121,10 @@ Page({
     wx.showToast({ title: '语音记账即将支持', icon: 'none' });
   },
 
+  goStats() {
+    wx.navigateTo({ url: '/pages/stats/stats' });
+  },
+
   getDateStr(date) {
     const y = date.getFullYear();
     const m = String(date.getMonth() + 1).padStart(2, '0');
