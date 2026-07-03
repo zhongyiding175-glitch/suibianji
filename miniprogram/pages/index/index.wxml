@@ -1,0 +1,88 @@
+<view class="page">
+  <view class="status-bar">
+    <text>{{statusTime}}</text>
+    <text>🔋 📶</text>
+  </view>
+  <view class="nav">随便记</view>
+
+  <scroll-view class="content" scroll-y enhanced show-scrollbar="{{false}}">
+
+    <view class="greeting-card glass-strong rounded-20">
+      <view class="greeting-row">
+        <view>
+          <text class="greeting-date">{{todayDate}} · 星期{{weekday}}</text>
+          <view class="greeting-title">下午好</view>
+          <text class="greeting-sub">今天花了多少？</text>
+        </view>
+        <view class="greeting-total">
+          <text class="greeting-amount">¥{{todayTotal}}</text>
+          <text class="greeting-amount-label">今日支出 · {{todayCount}}笔</text>
+        </view>
+      </view>
+    </view>
+
+    <view wx:if="{{aiThinking}}" class="ai-bubble glass-tint rounded-14">
+      <view class="ai-dots">
+        <view class="ai-dot"></view>
+        <view class="ai-dot"></view>
+        <view class="ai-dot"></view>
+      </view>
+      <text>AI 正在分类...</text>
+    </view>
+
+    <view class="date-divider">
+      <view class="date-divider-line"></view>
+      <text class="date-divider-text">今天</text>
+      <view class="date-divider-line"></view>
+    </view>
+
+    <view wx:for="{{todayBills}}" wx:key="id" class="bill-card glass rounded-16">
+      <view class="bill-left">
+        <view class="bill-icon-wrap bill-icon-{{item.category}}">
+          <text>{{item.emoji}}</text>
+        </view>
+        <view>
+          <text class="bill-title">{{item.note || item.category}}</text>
+          <text class="bill-meta">{{item.time}} · {{item.category}}</text>
+        </view>
+      </view>
+      <text class="bill-amount">-{{item.amount}}</text>
+    </view>
+
+    <view wx:if="{{yesterdayBills.length}}" class="date-divider">
+      <view class="date-divider-line"></view>
+      <text class="date-divider-text">昨天</text>
+      <view class="date-divider-line"></view>
+    </view>
+
+    <view wx:for="{{yesterdayBills}}" wx:key="id" class="bill-card glass rounded-16">
+      <view class="bill-left">
+        <view class="bill-icon-wrap bill-icon-{{item.category}}">
+          <text>{{item.emoji}}</text>
+        </view>
+        <view>
+          <text class="bill-title">{{item.note || item.category}}</text>
+          <text class="bill-meta">{{item.time}} · {{item.category}}</text>
+        </view>
+      </view>
+      <text class="bill-amount">-{{item.amount}}</text>
+    </view>
+
+    <view style="height:100rpx;"></view>
+  </scroll-view>
+
+  <view class="input-bar-wrap">
+    <view class="input-bar glass-strong">
+      <view class="input-btn input-btn-voice" bindtap="startVoice">🎤</view>
+      <input class="input-field"
+             placeholder="午饭吃了什么？花了多少？"
+             value="{{inputText}}"
+             bindinput="onInput"
+             bindconfirm="submitBill"
+             confirm-type="send"
+             adjust-position="{{false}}"
+             cursor-spacing="20"/>
+      <view class="input-btn input-btn-send" bindtap="submitBill">↑</view>
+    </view>
+  </view>
+</view>

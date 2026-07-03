@@ -1,0 +1,94 @@
+.page {
+  height: 100vh; display: flex; flex-direction: column;
+  background: linear-gradient(170deg, #f9f6f0 0%, #f0ece4 40%, #e8e4db 100%);
+}
+
+.status-bar {
+  height: 88rpx; display: flex; align-items: flex-end;
+  justify-content: space-between; padding: 0 48rpx 12rpx;
+  font-size: 24rpx; font-weight: 600; color: #1c1c1e;
+}
+
+.nav {
+  height: 88rpx; display: flex; align-items: center;
+  justify-content: center; font-size: 34rpx; font-weight: 700;
+  color: #1c1c1e; letter-spacing: -1rpx;
+}
+
+.content { flex: 1; padding: 0 32rpx; }
+
+.greeting-card { padding: 40rpx 36rpx 32rpx; margin-bottom: 28rpx; }
+.greeting-row { display: flex; justify-content: space-between; align-items: flex-start; }
+.greeting-date { font-size: 24rpx; color: rgba(0,0,0,0.4); font-weight: 500; letter-spacing: 1rpx; }
+.greeting-title { font-size: 52rpx; font-weight: 800; color: #1c1c1e; letter-spacing: -1rpx; margin: 6rpx 0 4rpx; }
+.greeting-sub { font-size: 26rpx; color: rgba(0,0,0,0.45); font-weight: 500; }
+.greeting-total { text-align: right; }
+.greeting-amount { font-size: 60rpx; font-weight: 800; color: #1c1c1e; letter-spacing: -2rpx; line-height: 1; }
+.greeting-amount-label { font-size: 22rpx; color: rgba(0,0,0,0.35); margin-top: 4rpx; }
+
+.ai-bubble {
+  padding: 16rpx 24rpx; border-radius: 28rpx; margin-bottom: 20rpx;
+  display: inline-flex; align-items: center; gap: 14rpx;
+  font-size: 24rpx; color: rgba(0,0,0,0.5); font-weight: 500;
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(16px);
+  border: 1rpx solid rgba(255,255,255,0.5);
+}
+.ai-dots { display: flex; gap: 6rpx; }
+.ai-dot {
+  width: 10rpx; height: 10rpx; border-radius: 50%;
+  background: #FF6B35; animation: dotPulse 1.2s infinite;
+}
+.ai-dot:nth-child(2) { animation-delay: 0.2s; }
+.ai-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dotPulse {
+  0%, 60%, 100% { opacity: 0.2; transform: scale(0.8); }
+  30% { opacity: 1; transform: scale(1); }
+}
+
+.date-divider {
+  display: flex; align-items: center; gap: 20rpx; margin: 36rpx 0 20rpx;
+}
+.date-divider-line { flex: 1; height: 1rpx; background: rgba(0,0,0,0.06); }
+.date-divider-text { font-size: 22rpx; font-weight: 600; color: rgba(0,0,0,0.3); letter-spacing: 2rpx; }
+
+.bill-card {
+  padding: 28rpx 32rpx; margin-bottom: 12rpx;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.bill-left { display: flex; align-items: center; gap: 24rpx; }
+.bill-icon-wrap {
+  width: 80rpx; height: 80rpx; border-radius: 28rpx;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36rpx;
+}
+.bill-icon-餐饮 { background: rgba(255,107,53,0.12); }
+.bill-icon-交通 { background: rgba(16,185,129,0.12); }
+.bill-icon-购物 { background: rgba(59,130,246,0.12); }
+.bill-icon-娱乐 { background: rgba(139,92,246,0.12); }
+.bill-icon-学习 { background: rgba(245,158,11,0.12); }
+.bill-icon-日用 { background: rgba(107,114,128,0.12); }
+.bill-title { font-size: 30rpx; font-weight: 600; color: #1c1c1e; display: block; }
+.bill-meta { font-size: 22rpx; color: rgba(0,0,0,0.35); margin-top: 2rpx; }
+.bill-amount { font-size: 32rpx; font-weight: 700; color: #1c1c1e; }
+
+.input-bar-wrap {
+  padding: 16rpx 24rpx 56rpx;
+  background: transparent;
+}
+.input-bar {
+  padding: 12rpx 16rpx 12rpx 32rpx; border-radius: 44rpx;
+  display: flex; align-items: center; gap: 16rpx;
+}
+.input-field {
+  flex: 1; height: 64rpx; font-size: 28rpx; color: #1c1c1e;
+}
+.input-field::placeholder { color: rgba(0,0,0,0.2); }
+.input-btn {
+  width: 64rpx; height: 64rpx; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30rpx;
+}
+.input-btn:active { transform: scale(0.92); opacity: 0.8; }
+.input-btn-voice { background: rgba(0,0,0,0.04); }
+.input-btn-send { background: #1c1c1e; color: #fff; }
