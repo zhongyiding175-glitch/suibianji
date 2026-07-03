@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>随便记 - iOS Design Mockup</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #000;
+    display: flex; gap: 48px; padding: 48px;
+    justify-content: center; align-items: flex-start;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+    flex-wrap: wrap;
+  }
+
+  .phone-wrap { text-align: center; }
+  .phone-label {
+    color: rgba(255,255,255,0.5); font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 14px;
+  }
+  .phone {
+    width: 375px; height: 740px;
+    border-radius: 40px; overflow: hidden;
+    position: relative;
+    box-shadow:
+      0 0 0 8px #1c1c1e,
+      0 0 0 10px #3a3a3c,
+      0 30px 80px rgba(0,0,0,0.6);
+  }
+
+  /* ============ 背景渐变 ============ */
+  .bg-home {
+    width: 100%; height: 100%;
+    background: linear-gradient(170deg, #f9f6f0 0%, #f0ece4 40%, #e8e4db 100%);
+    position: relative; overflow-y: auto;
+  }
+  .bg-stats {
+    width: 100%; height: 100%;
+    background: linear-gradient(170deg, #f7f3ee 0%, #efe9e1 40%, #e6dfd6 100%);
+    position: relative; overflow-y: auto;
+  }
+  .bg-report {
+    width: 100%; height: 100%;
+    background: #0c0c0e;
+    position: relative; overflow-y: auto;
+    color: #fff;
+  }
+
+  /* ============ 毛玻璃组件 ============ */
+  .glass {
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 0.5px solid rgba(255,255,255,0.6);
+  }
+  .glass-strong {
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 0.5px solid rgba(255,255,255,0.8);
+  }
+  .glass-dark {
+    background: rgba(28,28,30,0.65);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 0.5px solid rgba(255,255,255,0.08);
+  }
+  .glass-tint {
+    background: rgba(255,255,255,0.35);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 0.5px solid rgba(255,255,255,0.5);
+  }
+
+  /* ============ iOS Status Bar ============ */
+  .status-bar {
+    height: 48px; display: flex; align-items: flex-end;
+    justify-content: space-between; padding: 0 28px 8px;
+    font-size: 12px; font-weight: 600; color: #1c1c1e;
+    letter-spacing: -0.2px;
+  }
+  .status-bar.dark { color: rgba(255,255,255,0.9); }
+  .status-time { font-size: 13px; font-weight: 700; }
+
+  /* ============ iOS Nav ============ */
+  .nav {
+    height: 48px; display: flex; align-items: center;
+    justify-content: center; padding: 0 16px;
+    font-size: 15px; font-weight: 700; color: #1c1c1e;
+    letter-spacing: -0.3px; position: relative;
+  }
+  .nav.dark { color: #fff; }
+  .nav-back {
+    position: absolute; left: 16px; font-size: 13px;
+    font-weight: 500; color: #FF6B35; top: 50%; transform: translateY(-50%);
+  }
+
+  /* ============ Content Area ============ */
+  .content { padding: 0 16px 100px; }
+
+  /* ============ 首页 ============ */
+
+  /* 顶部问候卡片 */
+  .greeting-card {
+    padding: 20px 20px 16px; border-radius: 20px; margin-bottom: 16px;
+  }
+  .greeting-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .greeting-date { font-size: 12px; color: rgba(0,0,0,0.45); font-weight: 500; letter-spacing: 0.5px; }
+  .greeting-title { font-size: 26px; font-weight: 800; color: #1c1c1e; letter-spacing: -0.5px; margin: 4px 0 2px; }
+  .greeting-sub { font-size: 13px; color: rgba(0,0,0,0.5); font-weight: 500; }
+  .greeting-total { text-align: right; }
+  .greeting-amount { font-size: 32px; font-weight: 800; color: #1c1c1e; letter-spacing: -1px; line-height: 1; }
+  .greeting-amount-label { font-size: 11px; color: rgba(0,0,0,0.4); margin-top: 2px; }
+
+  /* AI 气泡 */
+  .ai-bubble {
+    padding: 10px 14px; border-radius: 14px; margin-bottom: 12px;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; color: rgba(0,0,0,0.55); font-weight: 500;
+  }
+  .ai-dots { display: flex; gap: 3px; }
+  .ai-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: #FF6B35; animation: dotPulse 1.2s infinite;
+  }
+  .ai-dot:nth-child(2) { animation-delay: 0.2s; }
+  .ai-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes dotPulse { 0%,60%,100%{opacity:0.2;transform:scale(0.8)} 30%{opacity:1;transform:scale(1)} }
+
+  /* 日期分隔 */
+  .date-divider {
+    display: flex; align-items: center; gap: 10px; margin: 20px 0 10px;
+  }
+  .date-divider-line { flex: 1; height: 0.5px; background: rgba(0,0,0,0.08); }
+  .date-divider-text { font-size: 11px; font-weight: 600; color: rgba(0,0,0,0.35); letter-spacing: 1px; }
+
+  /* 账单条目 */
+  .bill-card {
+    padding: 14px 16px; border-radius: 16px; margin-bottom: 6px;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: transform 0.15s;
+  }
+  .bill-left { display: flex; align-items: center; gap: 12px; }
+  .bill-icon-wrap {
+    width: 42px; height: 42px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .bill-icon-wrap.food { background: rgba(255,107,53,0.12); }
+  .bill-icon-wrap.drink { background: rgba(139,92,246,0.12); }
+  .bill-icon-wrap.shop { background: rgba(59,130,246,0.12); }
+  .bill-icon-wrap.transport { background: rgba(16,185,129,0.12); }
+  .bill-info-title { font-size: 15px; font-weight: 600; color: #1c1c1e; letter-spacing: -0.2px; }
+  .bill-info-meta { font-size: 12px; color: rgba(0,0,0,0.4); font-weight: 500; margin-top: 1px; }
+  .bill-amount { font-size: 16px; font-weight: 700; color: #1c1c1e; letter-spacing: -0.3px; }
+
+  /* 输入栏 */
+  .input-bar-wrap {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 8px 12px 28px;
+  }
+  .input-bar {
+    padding: 8px 10px 8px 16px; border-radius: 22px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .input-field {
+    flex: 1; height: 32px; border: none; background: transparent;
+    font-size: 14px; outline: none; color: #1c1c1e;
+    font-family: inherit;
+  }
+  .input-field::placeholder { color: rgba(0,0,0,0.25); }
+  .input-btn {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: none; cursor: pointer; display: flex;
+    align-items: center; justify-content: center;
+    font-size: 15px; transition: transform 0.15s;
+  }
+  .input-btn:active { transform: scale(0.92); }
+  .btn-voice { background: rgba(0,0,0,0.05); }
+  .btn-send { background: #1c1c1e; color: #fff; }
+
+  /* ============ 统计页 ============ */
+  .stat-header-card {
+    padding: 24px 20px; border-radius: 24px; text-align: center; margin-bottom: 16px;
+  }
+  .stat-month-label { font-size: 12px; color: rgba(0,0,0,0.45); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+  .stat-big-amount { font-size: 48px; font-weight: 800; color: #1c1c1e; letter-spacing: -2px; margin: 6px 0; }
+  .stat-big-amount .yen { font-size: 22px; font-weight: 500; vertical-align: super; }
+  .stat-big-amount .dec { font-size: 22px; font-weight: 400; color: rgba(0,0,0,0.5); }
+  .stat-compare { font-size: 12px; color: #10B981; font-weight: 600; }
+  .stat-compare span { opacity: 0.6; }
+
+  .rank-card {
+    padding: 16px 18px; border-radius: 18px; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .rank-num { font-size: 13px; font-weight: 700; color: rgba(0,0,0,0.3); width: 18px; }
+  .rank-icon {
+    width: 36px; height: 36px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; font-size: 16px;
+  }
+  .rank-info { flex: 1; }
+  .rank-name { font-size: 14px; font-weight: 600; color: #1c1c1e; letter-spacing: -0.2px; }
+  .rank-bar-wrap { height: 4px; background: rgba(0,0,0,0.06); border-radius: 2px; margin-top: 6px; }
+  .rank-bar-fill { height: 100%; border-radius: 2px; }
+  .rank-amount { text-align: right; }
+  .rank-amount-val { font-size: 15px; font-weight: 700; color: #1c1c1e; letter-spacing: -0.3px; }
+  .rank-amount-pct { font-size: 11px; color: rgba(0,0,0,0.4); }
+
+  /* 底部Tab */
+  .tab-bar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 8px 16px 26px;
+    display: flex; gap: 4px;
+  }
+  .tab-item {
+    flex: 1; padding: 8px; border-radius: 14px;
+    text-align: center; font-size: 10px; font-weight: 600;
+    color: rgba(0,0,0,0.35); transition: all 0.2s;
+    border: 0.5px solid transparent;
+  }
+  .tab-item.active {
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-color: rgba(255,255,255,0.8);
+    color: #1c1c1e;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .tab-emoji { font-size: 18px; display: block; margin-bottom: 2px; }
+
+  /* ============ 周报页 (暗色主题) ============ */
+  .report-header {
+    text-align: center; padding: 16px 0 20px;
+  }
+  .report-week { font-size: 11px; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; }
+  .report-title { font-size: 24px; font-weight: 800; color: #fff; letter-spacing: -0.5px; margin-top: 4px; }
+
+  .report-hero {
+    padding: 28px 24px; border-radius: 28px; margin-bottom: 14px;
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 0.5px solid rgba(255,255,255,0.08);
+  }
+  .hero-row {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .hero-stat { text-align: center; flex: 1; }
+  .hero-num { font-size: 30px; font-weight: 800; color: #fff; letter-spacing: -1px; }
+  .hero-label { font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 4px; letter-spacing: 0.5px; text-transform: uppercase; }
+  .hero-divider { width: 0.5px; height: 40px; background: rgba(255,255,255,0.1); }
+
+  .insight-card {
+    padding: 20px; border-radius: 22px; margin-bottom: 10px;
+  }
+  .insight-emoji { font-size: 28px; margin-bottom: 10px; }
+  .insight-title { font-size: 17px; font-weight: 700; color: #fff; letter-spacing: -0.3px; margin-bottom: 8px; }
+  .insight-body { font-size: 13px; line-height: 1.7; color: rgba(255,255,255,0.7); font-weight: 400; }
+  .insight-body b { color: #fff; font-weight: 600; }
+
+  .highlight-card {
+    padding: 20px; border-radius: 22px; margin-bottom: 10px;
+  }
+  .highlight-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 13px; color: rgba(255,255,255,0.8); }
+  .highlight-dot { width: 5px; height: 5px; border-radius: 50%; }
+
+  .share-btn {
+    display: block; width: 100%; padding: 14px; border-radius: 16px;
+    border: none; font-size: 15px; font-weight: 700; cursor: pointer;
+    background: #fff; color: #000; margin-top: 12px;
+    font-family: inherit; letter-spacing: -0.2px;
+    transition: transform 0.15s;
+  }
+  .share-btn:active { transform: scale(0.97); }
+
+  /* ============ 装饰光晕 ============ */
+  .glow-amber {
+    position: absolute; width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(255,107,53,0.15) 0%, transparent 70%);
+    border-radius: 50%; top: -40px; right: -60px; pointer-events: none;
+  }
+  .glow-purple {
+    position: absolute; width: 180px; height: 180px;
+    background: radial-gradient(circle, rgba(139,92,246,0.10) 0%, transparent 70%);
+    border-radius: 50%; bottom: 60px; left: -40px; pointer-events: none;
+  }
+
+  /* Scroll */
+  .bg-home::-webkit-scrollbar, .bg-stats::-webkit-scrollbar, .bg-report::-webkit-scrollbar { display: none; }
+</style>
+</head>
+<body>
+
+<!-- ========== 首页 ========== -->
+<div class="phone-wrap">
+  <div class="phone-label">Home — 记账主界面</div>
+  <div class="phone">
+    <div class="bg-home" style="position:relative;">
+      <div class="glow-amber"></div>
+      <div class="glow-purple"></div>
+
+      <div class="status-bar">
+        <span>9:41</span>
+        <span style="display:flex;gap:6px;">󰁨 󰁹</span>
+      </div>
+      <div class="nav">随便记</div>
+
+      <div class="content" style="position:relative;z-index:1;">
+        <!-- 资产卡片 -->
+        <div class="greeting-card glass-strong">
+          <div class="greeting-row">
+            <div>
+              <div class="greeting-date">7月3日 · 星期四</div>
+              <div class="greeting-title">下午好</div>
+              <div class="greeting-sub">今天花了多少？</div>
+            </div>
+            <div class="greeting-total">
+              <div class="greeting-amount">¥43.50</div>
+              <div class="greeting-amount-label">今日支出 · 3笔</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI 气泡 -->
+        <div class="ai-bubble glass-tint">
+          <div class="ai-dots"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div>
+          AI 正在分类...
+        </div>
+
+        <!-- 今天 -->
+        <div class="date-divider">
+          <div class="date-divider-line"></div>
+          <div class="date-divider-text">今天</div>
+          <div class="date-divider-line"></div>
+        </div>
+
+        <div class="bill-card glass">
+          <div class="bill-left">
+            <div class="bill-icon-wrap food">🍜</div>
+            <div>
+              <div class="bill-info-title">食堂午饭</div>
+              <div class="bill-info-meta">12:30 · 餐饮</div>
+            </div>
+          </div>
+          <div class="bill-amount">-12.00</div>
+        </div>
+
+        <div class="bill-card glass">
+          <div class="bill-left">
+            <div class="bill-icon-wrap drink">☕</div>
+            <div>
+              <div class="bill-info-title">瑞幸冰美式</div>
+              <div class="bill-info-meta">14:20 · 餐饮</div>
+            </div>
+          </div>
+          <div class="bill-amount">-9.90</div>
+        </div>
+
+        <div class="bill-card glass">
+          <div class="bill-left">
+            <div class="bill-icon-wrap shop">📦</div>
+            <div>
+              <div class="bill-info-title">快递取件</div>
+              <div class="bill-info-meta">16:45 · 购物</div>
+            </div>
+          </div>
+          <div class="bill-amount">-21.60</div>
+        </div>
+
+        <!-- 昨天 -->
+        <div class="date-divider">
+          <div class="date-divider-line"></div>
+          <div class="date-divider-text">昨天</div>
+          <div class="date-divider-line"></div>
+        </div>
+
+        <div class="bill-card glass">
+          <div class="bill-left">
+            <div class="bill-icon-wrap transport">🚇</div>
+            <div>
+              <div class="bill-info-title">地铁通勤</div>
+              <div class="bill-info-meta">08:15 · 交通</div>
+            </div>
+          </div>
+          <div class="bill-amount">-6.00</div>
+        </div>
+
+        <div class="bill-card glass">
+          <div class="bill-left">
+            <div class="bill-icon-wrap food">🍱</div>
+            <div>
+              <div class="bill-info-title">外卖晚餐</div>
+              <div class="bill-info-meta">19:20 · 餐饮</div>
+            </div>
+          </div>
+          <div class="bill-amount">-28.00</div>
+        </div>
+      </div>
+
+      <!-- 输入栏 -->
+      <div class="input-bar-wrap" style="z-index:2;">
+        <div class="input-bar glass-strong">
+          <button class="input-btn btn-voice">🎤</button>
+          <input class="input-field" placeholder="午饭吃了什么？花了多少？">
+          <button class="input-btn btn-send">↑</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 统计页 ========== -->
+<div class="phone-wrap">
+  <div class="phone-label">Stats — 月度概览</div>
+  <div class="phone">
+    <div class="bg-stats" style="position:relative;">
+      <div class="glow-amber"></div>
+
+      <div class="status-bar">
+        <span>9:41</span>
+        <span style="display:flex;gap:6px;">󰁨 󰁹</span>
+      </div>
+      <div class="nav">账单分析</div>
+
+      <div class="content" style="position:relative;z-index:1;">
+        <!-- 总支出 -->
+        <div class="stat-header-card glass-strong">
+          <div class="stat-month-label">2026 / July</div>
+          <div class="stat-big-amount">
+            <span class="yen">¥</span>1,286<span class="dec">.50</span>
+          </div>
+          <div class="stat-compare">↓ 比上月少花了 ¥340 <span>(−20%)</span></div>
+        </div>
+
+        <!-- 类目排名 -->
+        <div class="rank-card glass">
+          <div class="rank-num">1</div>
+          <div class="rank-icon" style="background:rgba(255,107,53,0.12);">🍜</div>
+          <div class="rank-info">
+            <div class="rank-name">餐饮</div>
+            <div class="rank-bar-wrap">
+              <div class="rank-bar-fill" style="width:78%;background:#FF6B35;"></div>
+            </div>
+          </div>
+          <div class="rank-amount">
+            <div class="rank-amount-val">¥486</div>
+            <div class="rank-amount-pct">38%</div>
+          </div>
+        </div>
+
+        <div class="rank-card glass">
+          <div class="rank-num">2</div>
+          <div class="rank-icon" style="background:rgba(59,130,246,0.12);">🛍</div>
+          <div class="rank-info">
+            <div class="rank-name">购物</div>
+            <div class="rank-bar-wrap">
+              <div class="rank-bar-fill" style="width:52%;background:#3B82F6;"></div>
+            </div>
+          </div>
+          <div class="rank-amount">
+            <div class="rank-amount-val">¥320</div>
+            <div class="rank-amount-pct">25%</div>
+          </div>
+        </div>
+
+        <div class="rank-card glass">
+          <div class="rank-num">3</div>
+          <div class="rank-icon" style="background:rgba(16,185,129,0.12);">🚇</div>
+          <div class="rank-info">
+            <div class="rank-name">交通</div>
+            <div class="rank-bar-wrap">
+              <div class="rank-bar-fill" style="width:30%;background:#10B981;"></div>
+            </div>
+          </div>
+          <div class="rank-amount">
+            <div class="rank-amount-val">¥186</div>
+            <div class="rank-amount-pct">14%</div>
+          </div>
+        </div>
+
+        <div class="rank-card glass">
+          <div class="rank-num">4</div>
+          <div class="rank-icon" style="background:rgba(139,92,246,0.12);">🎮</div>
+          <div class="rank-info">
+            <div class="rank-name">娱乐</div>
+            <div class="rank-bar-wrap">
+              <div class="rank-bar-fill" style="width:24%;background:#8B5CF6;"></div>
+            </div>
+          </div>
+          <div class="rank-amount">
+            <div class="rank-amount-val">¥152</div>
+            <div class="rank-amount-pct">12%</div>
+          </div>
+        </div>
+
+        <div class="rank-card glass">
+          <div class="rank-num">5</div>
+          <div class="rank-icon" style="background:rgba(245,158,11,0.12);">📚</div>
+          <div class="rank-info">
+            <div class="rank-name">学习</div>
+            <div class="rank-bar-wrap">
+              <div class="rank-bar-fill" style="width:14%;background:#F59E0B;"></div>
+            </div>
+          </div>
+          <div class="rank-amount">
+            <div class="rank-amount-val">¥88</div>
+            <div class="rank-amount-pct">7%</div>
+          </div>
+        </div>
+
+        <div class="rank-card glass">
+          <div class="rank-num">6</div>
+          <div class="rank-icon" style="background:rgba(107,114,128,0.12);">🧴</div>
+          <div class="rank-info">
+            <div class="rank-name">日用</div>
+            <div class="rank-bar-wrap">
+              <div class="rank-bar-fill" style="width:9%;background:#6B7280;"></div>
+            </div>
+          </div>
+          <div class="rank-amount">
+            <div class="rank-amount-val">¥54</div>
+            <div class="rank-amount-pct">4%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Bar -->
+      <div class="tab-bar">
+        <div class="tab-item">
+          <span class="tab-emoji">💰</span>记账
+        </div>
+        <div class="tab-item active">
+          <span class="tab-emoji">📊</span>统计
+        </div>
+        <div class="tab-item">
+          <span class="tab-emoji">👤</span>我的
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 周报推送 ========== -->
+<div class="phone-wrap">
+  <div class="phone-label">Report — 每周推送</div>
+  <div class="phone">
+    <div class="bg-report" style="position:relative;">
+      <div class="status-bar dark">
+        <span>20:00</span>
+        <span style="display:flex;gap:6px;">󰁨 󰁹</span>
+      </div>
+      <div class="nav dark">本周报告</div>
+
+      <div class="content" style="position:relative;z-index:1;">
+        <div class="report-header">
+          <div class="report-week">6.29 — 7.3</div>
+          <div class="report-title">你的消费周报</div>
+        </div>
+
+        <!-- Hero Stats -->
+        <div class="report-hero">
+          <div class="hero-row">
+            <div class="hero-stat">
+              <div class="hero-num">¥321</div>
+              <div class="hero-label">本周支出</div>
+            </div>
+            <div class="hero-divider"></div>
+            <div class="hero-stat">
+              <div class="hero-num">18</div>
+              <div class="hero-label">记账笔数</div>
+            </div>
+            <div class="hero-divider"></div>
+            <div class="hero-stat">
+              <div class="hero-num" style="color:#10B981;">TOP1</div>
+              <div class="hero-label">餐饮类目</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 奶茶预警 -->
+        <div class="insight-card glass-dark">
+          <div class="insight-emoji">🧋</div>
+          <div class="insight-title">奶茶预警</div>
+          <div class="insight-body">
+            这周你买了 <b>6杯奶茶</b>，花了 <b>¥83</b>，比上周多了 ¥32。<br><br>
+            一个月下来就是 ¥332——够买一门网课，或者3本好书。<br><br>
+            下周控制在3杯以内？
+          </div>
+        </div>
+
+        <!-- 亮点 -->
+        <div class="highlight-card glass-dark">
+          <div class="insight-emoji">✨</div>
+          <div class="insight-title">本周亮点</div>
+          <div class="highlight-row">
+            <div class="highlight-dot" style="background:#10B981;"></div>
+            周二只花了 ¥18，你那天在干嘛？
+          </div>
+          <div class="highlight-row">
+            <div class="highlight-dot" style="background:#3B82F6;"></div>
+            食堂均价 ¥11.5，比外卖省了 40%
+          </div>
+          <div class="highlight-row">
+            <div class="highlight-dot" style="background:#8B5CF6;"></div>
+            比上周少花了 ¥54，你越来越会省了
+          </div>
+        </div>
+
+        <button class="share-btn">📤 分享本周战绩</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
