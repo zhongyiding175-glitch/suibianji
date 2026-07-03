@@ -234,7 +234,10 @@
 </div>
 
 <script>
-const API = location.origin + '/api';
+// 本地开发用 localhost:3000，部署后改成你的后端地址
+const API = location.hostname === 'localhost'
+  ? 'http://localhost:3000/api'
+  : 'http://localhost:3000/api'; // TODO: 替换为生产后端 URL
 let token = localStorage.getItem('token');
 const EMOJI = { '餐饮':'🍜','交通':'🚇','购物':'🛍','娱乐':'🎮','学习':'📚','日用':'🧴','收入':'💰','其他':'📌' };
 const WD = ['日','一','二','三','四','五','六'];
