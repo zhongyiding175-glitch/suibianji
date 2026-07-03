@@ -19,8 +19,8 @@ router.post('/login', async (req, res) => {
       const session = await code2session(code);
       openid = session.openid;
     } catch (err) {
-      // Dev mode fallback: if WeChat AppID not configured, use mock
-      if (process.env.WECHAT_APPID === 'your-wechat-appid') {
+      // Dev mode fallback: allow mock login when MOCK_AUTH=true
+      if (process.env.MOCK_AUTH === 'true') {
         openid = `dev_${code}`;
       } else {
         throw err;
