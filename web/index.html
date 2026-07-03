@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>随便记 - 极简记账</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+    background: linear-gradient(170deg, #f9f6f0 0%, #f0ece4 40%, #e8e4db 100%);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .phone {
+    width: 100%; height: 100vh; max-width: 100%;
+    position: relative; overflow: hidden;
+    background: linear-gradient(170deg, #f9f6f0 0%, #f0ece4 40%, #e8e4db 100%);
+    display: flex; flex-direction: column;
+  }
+
+  @media (min-width: 450px) {
+    body {
+      background: #000;
+      display: flex; justify-content: center; align-items: center;
+      padding: 20px;
+    }
+    .phone {
+      max-width: 400px; height: 92vh; max-height: 850px;
+      border-radius: 36px;
+      box-shadow: 0 0 0 8px #1c1c1e, 0 0 0 10px #3a3a3c, 0 30px 80px rgba(0,0,0,0.6);
+    }
+  }
+
+  /* Header */
+  .header {
+    padding: 16px 20px 12px; text-align: center;
+    border-bottom: 0.5px solid rgba(0,0,0,0.06);
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(20px);
+  }
+  .header-title { font-size: 17px; font-weight: 700; color: #1c1c1e; }
+  .header-sub { font-size: 11px; color: rgba(0,0,0,0.4); margin-top: 2px; }
+
+  /* Pages */
+  .pages { flex: 1; position: relative; overflow: hidden; }
+  .page {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  .page-hidden { transform: translateX(30px); opacity: 0; pointer-events: none; }
+
+  .content { flex: 1; overflow-y: auto; padding: 16px 16px 0; }
+  .content::-webkit-scrollbar { display: none; }
+
+  /* Glass card */
+  .card {
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(30px);
+    border: 0.5px solid rgba(255,255,255,0.8);
+    border-radius: 20px;
+  }
+
+  /* Greeting */
+  .greeting { padding: 20px 20px 16px; margin-bottom: 16px; }
+  .greeting-row { display: flex; justify-content: space-between; align-items: flex-start; }
+  .greeting-date { font-size: 12px; color: rgba(0,0,0,0.4); font-weight: 500; letter-spacing: 0.5px; }
+  .greeting-title { font-size: 26px; font-weight: 800; color: #1c1c1e; letter-spacing: -0.5px; margin: 4px 0 2px; }
+  .greeting-sub { font-size: 13px; color: rgba(0,0,0,0.45); font-weight: 500; }
+  .greeting-total { text-align: right; }
+  .greeting-amount { font-size: 32px; font-weight: 800; color: #1c1c1e; letter-spacing: -1px; line-height: 1; }
+  .greeting-amount-label { font-size: 11px; color: rgba(0,0,0,0.35); margin-top: 2px; }
+
+  /* AI bubble */
+  .ai-bubble {
+    padding: 10px 14px; border-radius: 14px; margin-bottom: 12px;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; color: rgba(0,0,0,0.55); font-weight: 500;
+    background: rgba(255,255,255,0.35);
+    backdrop-filter: blur(16px);
+    border: 0.5px solid rgba(255,255,255,0.5);
+  }
+  .ai-dots { display: flex; gap: 3px; }
+  .ai-dot { width: 5px; height: 5px; border-radius: 50%; background: #FF6B35; animation: dotPulse 1.2s infinite; }
+  .ai-dot:nth-child(2) { animation-delay: 0.2s; }
+  .ai-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes dotPulse { 0%,60%,100%{opacity:0.2;transform:scale(0.8)} 30%{opacity:1;transform:scale(1)} }
+
+  /* Date divider */
+  .divider { display: flex; align-items: center; gap: 10px; margin: 20px 0 10px; }
+  .divider-line { flex: 1; height: 0.5px; background: rgba(0,0,0,0.08); }
+  .divider-text { font-size: 11px; font-weight: 600; color: rgba(0,0,0,0.3); letter-spacing: 1px; }
+
+  /* Bill item */
+  .bill {
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(20px);
+    border: 0.5px solid rgba(255,255,255,0.6);
+    border-radius: 16px; padding: 14px 16px; margin-bottom: 6px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .bill-left { display: flex; align-items: center; gap: 12px; }
+  .bill-icon {
+    width: 42px; height: 42px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+  }
+  .bill-name { font-size: 15px; font-weight: 600; color: #1c1c1e; }
+  .bill-meta { font-size: 12px; color: rgba(0,0,0,0.35); margin-top: 1px; }
+  .bill-amount { font-size: 16px; font-weight: 700; color: #1c1c1e; }
+
+  /* Input bar */
+  .input-bar-wrap { padding: 8px 12px 20px; }
+  .input-bar {
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(30px);
+    border: 0.5px solid rgba(255,255,255,0.8);
+    border-radius: 22px; padding: 8px 10px 8px 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .input-bar input {
+    flex: 1; height: 32px; border: none; background: transparent;
+    font-size: 14px; outline: none; color: #1c1c1e; font-family: inherit;
+  }
+  .input-bar input::placeholder { color: rgba(0,0,0,0.2); }
+  .btn-send {
+    width: 32px; height: 32px; border-radius: 50%; border: none;
+    background: #1c1c1e; color: #fff; font-size: 15px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .btn-send:active { transform: scale(0.92); }
+
+  /* Stats page */
+  .stat-card { padding: 28px 24px; text-align: center; margin-bottom: 16px; }
+  .stat-label { font-size: 12px; color: rgba(0,0,0,0.4); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+  .stat-big { font-size: 48px; font-weight: 800; color: #1c1c1e; letter-spacing: -2px; margin: 6px 0; }
+  .stat-big .yen { font-size: 22px; font-weight: 500; vertical-align: super; }
+  .stat-big .dec { font-size: 22px; font-weight: 400; color: rgba(0,0,0,0.5); }
+  .stat-compare { font-size: 12px; color: #10B981; font-weight: 600; }
+
+  .rank {
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(20px);
+    border: 0.5px solid rgba(255,255,255,0.6);
+    border-radius: 18px; padding: 16px 18px; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .rank-num { font-size: 13px; font-weight: 700; color: rgba(0,0,0,0.2); width: 18px; }
+  .rank-icon {
+    width: 36px; height: 36px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; font-size: 16px;
+  }
+  .rank-info { flex: 1; }
+  .rank-name { font-size: 14px; font-weight: 600; color: #1c1c1e; }
+  .rank-bar { height: 4px; background: rgba(0,0,0,0.06); border-radius: 2px; margin-top: 6px; }
+  .rank-bar-fill { height: 100%; border-radius: 2px; }
+  .rank-amount { text-align: right; }
+  .rank-amount-val { font-size: 15px; font-weight: 700; color: #1c1c1e; }
+  .rank-amount-pct { font-size: 11px; color: rgba(0,0,0,0.35); }
+
+  /* Tab bar */
+  .tab-bar {
+    padding: 8px 16px max(20px, env(safe-area-inset-bottom)); display: flex; gap: 8px;
+    border-top: 0.5px solid rgba(0,0,0,0.04);
+  }
+  .tab {
+    flex: 1; padding: 10px; border-radius: 14px; text-align: center;
+    font-size: 11px; font-weight: 600; color: rgba(0,0,0,0.3);
+    cursor: pointer; border: 0.5px solid transparent;
+  }
+  .tab.active {
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(20px);
+    border-color: rgba(255,255,255,0.8);
+    color: #1c1c1e;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .tab-emoji { font-size: 20px; display: block; margin-bottom: 2px; }
+
+  /* Login overlay */
+  .login-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(170deg, #f9f6f0 0%, #f0ece4 40%, #e8e4db 100%);
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; z-index: 10;
+  }
+  .login-overlay.hidden { display: none; }
+  .login-emoji { font-size: 64px; margin-bottom: 16px; }
+  .login-title { font-size: 24px; font-weight: 800; color: #1c1c1e; margin-bottom: 8px; }
+  .login-sub { font-size: 14px; color: rgba(0,0,0,0.4); margin-bottom: 32px; }
+  .login-btn {
+    background: #1c1c1e; color: #fff; border: none; padding: 14px 48px;
+    border-radius: 20px; font-size: 16px; font-weight: 700; cursor: pointer;
+    font-family: inherit;
+  }
+  .login-btn:active { transform: scale(0.96); }
+
+  .empty-state { text-align: center; padding: 40px; color: rgba(0,0,0,0.25); font-size: 14px; }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <!-- Login overlay -->
+  <div id="loginOverlay" class="login-overlay">
+    <div class="login-emoji">💰</div>
+    <div class="login-title">随便记</div>
+    <div class="login-sub">跟聊天一样记账，AI 帮你分类</div>
+    <button class="login-btn" onclick="doLogin()">开始使用</button>
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <div id="headerTitle" class="header-title">随便记</div>
+    <div id="headerDate" class="header-sub"></div>
+  </div>
+
+  <!-- Home page -->
+  <div id="pageHome" class="page">
+    <div class="content" id="homeContent">
+      <div class="greeting card">
+        <div class="greeting-row">
+          <div>
+            <div class="greeting-date" id="greetingDate"></div>
+            <div class="greeting-title">下午好</div>
+            <div class="greeting-sub">今天花了多少？</div>
+          </div>
+          <div class="greeting-total" onclick="showPage('stats')">
+            <div class="greeting-amount" id="todayTotal">¥0.00</div>
+            <div class="greeting-amount-label">今日支出 · 0笔 📊</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="aiBubble" class="ai-bubble" style="display:none">
+        <div class="ai-dots"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div>
+        <span>AI 正在分类...</span>
+      </div>
+
+      <div class="divider"><div class="divider-line"></div><span class="divider-text">今天</span><div class="divider-line"></div></div>
+      <div id="todayList"></div>
+
+      <div id="yesterdayDivider" class="divider" style="display:none"><div class="divider-line"></div><span class="divider-text">昨天</span><div class="divider-line"></div></div>
+      <div id="yesterdayList"></div>
+
+      <div style="height:60px;"></div>
+    </div>
+
+    <div class="input-bar-wrap">
+      <div class="input-bar">
+        <input id="billInput" placeholder="午饭吃了什么？花了多少？" onkeydown="if(event.key==='Enter')submitBill()">
+        <button class="btn-send" onclick="submitBill()">↑</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats page -->
+  <div id="pageStats" class="page page-hidden">
+    <div class="content">
+      <div class="stat-card card">
+        <div class="stat-label" id="statMonth">2026 / July</div>
+        <div class="stat-big"><span class="yen">¥</span><span id="statTotal">0</span><span class="dec">.00</span></div>
+        <div class="stat-compare" id="statCompare" style="display:none"></div>
+      </div>
+      <div id="rankList"></div>
+      <div style="height:60px;"></div>
+    </div>
+  </div>
+
+  <!-- Tab bar -->
+  <div class="tab-bar">
+    <div class="tab active" id="tabHome" onclick="showPage('home')">
+      <span class="tab-emoji">💰</span>记账
+    </div>
+    <div class="tab" id="tabStats" onclick="showPage('stats')">
+      <span class="tab-emoji">📊</span>统计
+    </div>
+  </div>
+</div>
+
+<script>
+const API = 'http://localhost:3000/api';
+let token = localStorage.getItem('token');
+let currentPage = 'home';
+
+const EMOJIS = { '餐饮':'🍜','交通':'🚇','购物':'🛍','娱乐':'🎮','学习':'📚','日用':'🧴','收入':'💰','其他':'📌' };
+const WEEKDAYS = ['日','一','二','三','四','五','六'];
+
+function getDateStr(d) {
+  const y = d.getFullYear(), m = String(d.getMonth()+1).padStart(2,'0'), day = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+
+function updateHeader() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0'), min = String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('headerDate').textContent = `${now.getMonth()+1}月${now.getDate()}日 星期${WEEKDAYS[now.getDay()]} · ${h}:${min}`;
+  document.getElementById('greetingDate').textContent = `${now.getMonth()+1}月${now.getDate()}日 · 星期${WEEKDAYS[now.getDay()]}`;
+  document.getElementById('statMonth').textContent = `${now.getFullYear()} / ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][now.getMonth()]}`;
+}
+
+async function api(method, path, body) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) headers['Authorization'] = 'Bearer ' + token;
+  const opts = { method, headers };
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(API + path, opts);
+  if (res.status === 401) { token = null; localStorage.removeItem('token'); showLogin(); throw new Error('登录过期'); }
+  if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.error || '请求失败'); }
+  return res.json();
+}
+
+function showLogin() {
+  document.getElementById('loginOverlay').classList.remove('hidden');
+}
+
+async function doLogin() {
+  try {
+    const nickname = '用户' + Math.random().toString(36).slice(2,6);
+    const result = await api('POST', '/auth/login', { code: 'web_' + Date.now(), nickname });
+    token = result.token;
+    localStorage.setItem('token', token);
+    document.getElementById('loginOverlay').classList.add('hidden');
+    loadBills();
+    loadStats();
+  } catch (err) {
+    alert('登录失败: ' + err.message);
+  }
+}
+
+async function loadBills() {
+  try {
+    const today = getDateStr(new Date());
+    const yesterday = getDateStr(new Date(Date.now() - 86400000));
+    const bills = await api('GET', '/bills?limit=100');
+
+    let todayTotal = 0, todayCount = 0;
+    const todayBills = [], yesterdayBills = [];
+
+    bills.forEach(b => {
+      const item = { ...b, emoji: EMOJIS[b.category]||'📌', time: b.created_at ? b.created_at.slice(11,16) : '' };
+      if (b.recorded_at === today) {
+        todayBills.push(item);
+        if (b.type === 'expense') { todayTotal += b.amount; todayCount++; }
+      } else if (b.recorded_at === yesterday) {
+        yesterdayBills.push(item);
+      }
+    });
+
+    document.getElementById('todayTotal').textContent = '¥' + todayTotal.toFixed(2);
+    document.getElementById('greetingDate').nextElementSibling || null;
+
+    document.getElementById('todayList').innerHTML = todayBills.length
+      ? todayBills.map(b => `
+        <div class="bill">
+          <div class="bill-left">
+            <div class="bill-icon" style="background:rgba(255,107,53,0.1)">${b.emoji}</div>
+            <div><div class="bill-name">${b.note || b.category}</div><div class="bill-meta">${b.time} · ${b.category}</div></div>
+          </div>
+          <div class="bill-amount">${b.type==='income'?'+':'-'}${b.amount.toFixed(2)}</div>
+        </div>`).join('')
+      : '<div class="empty-state">今天还没记账，来一笔吧 ✍️</div>';
+
+    const yd = document.getElementById('yesterdayDivider');
+    const yl = document.getElementById('yesterdayList');
+    if (yesterdayBills.length) {
+      yd.style.display = 'flex';
+      yl.innerHTML = yesterdayBills.map(b => `
+        <div class="bill">
+          <div class="bill-left">
+            <div class="bill-icon" style="background:rgba(255,107,53,0.1)">${b.emoji}</div>
+            <div><div class="bill-name">${b.note || b.category}</div><div class="bill-meta">${b.time} · ${b.category}</div></div>
+          </div>
+          <div class="bill-amount">-${b.amount.toFixed(2)}</div>
+        </div>`).join('');
+    } else { yd.style.display = 'none'; yl.innerHTML = ''; }
+  } catch (err) { console.error(err); }
+}
+
+async function submitBill() {
+  const input = document.getElementById('billInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  document.getElementById('aiBubble').style.display = 'inline-flex';
+  try {
+    await api('POST', '/bills', { raw_text: text });
+    document.getElementById('aiBubble').style.display = 'none';
+    document.getElementById('billInput').placeholder = '已记录 ✅';
+    setTimeout(() => { document.getElementById('billInput').placeholder = '午饭吃了什么？花了多少？'; }, 1500);
+    loadBills();
+    loadStats();
+  } catch (err) {
+    document.getElementById('aiBubble').style.display = 'none';
+    alert(err.message);
+  }
+}
+
+async function loadStats() {
+  try {
+    const now = new Date();
+    const stats = await api('GET', '/stats/monthly?year=' + now.getFullYear() + '&month=' + (now.getMonth()+1));
+    const totalStr = stats.total.toFixed(2);
+    const [intPart, decPart] = totalStr.split('.');
+    document.getElementById('statTotal').textContent = intPart;
+    document.querySelector('#pageStats .dec').textContent = '.' + decPart;
+
+    const comp = document.getElementById('statCompare');
+    if (stats.vs_last_month) {
+      comp.style.display = 'block';
+      const diff = Math.abs(stats.vs_last_month.amount);
+      comp.textContent = `↓ 比上月少花了 ¥${diff.toFixed(0)} (${Math.abs(stats.vs_last_month.percentage)}%)`;
+    } else { comp.style.display = 'none'; }
+
+    const COLORS = { '餐饮':'#FF6B35','交通':'#10B981','购物':'#3B82F6','娱乐':'#8B5CF6','学习':'#F59E0B','日用':'#6B7280' };
+    document.getElementById('rankList').innerHTML = stats.breakdown.map((c,i) => `
+      <div class="rank">
+        <span class="rank-num">${i+1}</span>
+        <div class="rank-icon" style="background:${(COLORS[c.category]||'#9CA3AF')}18">${EMOJIS[c.category]||'📌'}</div>
+        <div class="rank-info">
+          <div class="rank-name">${c.category}</div>
+          <div class="rank-bar"><div class="rank-bar-fill" style="width:${Math.max(c.percentage,4)}%;background:${COLORS[c.category]||'#9CA3AF'}"></div></div>
+        </div>
+        <div class="rank-amount">
+          <span class="rank-amount-val">¥${c.amount.toFixed(0)}</span>
+          <span class="rank-amount-pct">${c.percentage}%</span>
+        </div>
+      </div>`).join('') || '<div class="empty-state">暂无数据</div>';
+  } catch (err) { console.error(err); }
+}
+
+function showPage(page) {
+  currentPage = page;
+  document.getElementById('pageHome').classList.toggle('page-hidden', page !== 'home');
+  document.getElementById('pageStats').classList.toggle('page-hidden', page !== 'stats');
+  document.getElementById('headerTitle').textContent = page === 'home' ? '随便记' : '账单分析';
+  document.getElementById('tabHome').classList.toggle('active', page === 'home');
+  document.getElementById('tabStats').classList.toggle('active', page === 'stats');
+  if (page === 'stats') loadStats();
+}
+
+// Init
+updateHeader();
+setInterval(updateHeader, 60000);
+if (token) {
+  document.getElementById('loginOverlay').classList.add('hidden');
+  loadBills();
+  loadStats();
+}
+</script>
+</body>
+</html>
